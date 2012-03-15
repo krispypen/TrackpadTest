@@ -113,12 +113,14 @@
     	  e.preventDefault();
     	  jQuery('#step1').hide();
     	  jQuery('#step2').show();
+    	  _gaq.push(['_trackEvent', 'Step2', 'Show']);
     	  return false;
       });
       var intervalid = self.setInterval("updateTimerStep1()",100);
       var startdate = 0;
       function updateTimerStep1() {
     	  if(document.getElementById('step1_to_area').value.indexOf('malesuada') != -1){
+    		  _gaq.push(['_trackEvent', 'Step1', 'Stop', new Date().getTime()-startdate]);
     		  window.clearInterval(intervalid);
     		  jQuery('#gotostep2').show();
     		  startdate = 0;
@@ -131,11 +133,13 @@
     	  } else {
     		  if(document.getElementById('step1_to_area').value.indexOf('porta') != -1){
     			  startdate = new Date().getTime();
+    			  _gaq.push(['_trackEvent', 'Step1', 'Start']);
     		  }
     	  }
       }
       function updateTimerStep2() {
     	  if(document.getElementById('step2_to_area').value.indexOf('malesuada') != -1){
+    		  _gaq.push(['_trackEvent', 'Step2', 'Stop', new Date().getTime()-startdate]);
     		  window.clearInterval(intervalid);
     		  jQuery('#finish').show();
     	  }
@@ -147,6 +151,7 @@
     		  startdate = 0;
     		  if(document.getElementById('step2_to_area').value.indexOf('porta') != -1){
     			  startdate = new Date().getTime();
+    			  _gaq.push(['_trackEvent', 'Step2', 'Start']);
     		  }
     	  }
       }
