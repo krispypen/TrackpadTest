@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>The Trackpad Test</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="twitterbootstrap/css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+    </style>
+    <link href="../assets/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    <script src="twitterbootstrap/js/jquery.js"></script>
+    <script src="twitterbootstrap/js/bootstrap.js"></script>
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="index.html">Trackpad Test</a>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li><a href="index.html">Home</a></li>
+              <li class="active"><a href="test.html">Test</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="hero-unit" id="step1">
+        <h2>Copy paste each red marked text between the quotes in the textarea with a normal mouse. The timer will start automatically when you pasted the first item.</h2>
+        <br />
+        <h2>From</h2>
+        <p>Donec id elit non mi <span style="color:red">porta</span> gravida at eget metus. Fusce <span style="color:red">dapibus</span>, tellus ac cursus <span style="color:red">commodo</span>, tortor mauris condimentum nibh, <span style="color:red">ut</span> fermentum <span style="color:red">massa</span> justo sit amet <span style="color:red">risus</span>. <span style="color:red">Etiam</span> porta sem <span style="color:red">malesuada</span> magna mollis euismod. Donec sed odio dui. </p>
+        <h2>To</h2>
+        <div class="row">
+        	<div class="span7">
+        	<textarea style="width:100%" id="step1_to_area" class="input-xlarge" rows="12">{
+    word1 : "",
+    word2 : "",
+    word3 : "",
+    word4 : "",
+    word5 : "",
+    word6 : "",
+    word7 : "",
+    word8 : ""
+}</textarea>
+        	</div>
+	        <div class="span3">
+	        	<h2 class="step1_timer">0:000</h2>
+	        	<div id="gotostep2" style="display:none"><p>Step 1 is done, now go to <a class="btn btn-primary" id="startstep2">step 2</a></p></div>
+	        </div>
+        </div>
+      </div>
+      <div class="hero-unit" id="step2" style="display:none">
+        <h2>Now do the same with a Trackpad.</h2>
+        <br />
+        <h2>From</h2>
+        <p>Donec id elit non mi <span style="color:red">porta</span> gravida at eget metus. Fusce <span style="color:red">dapibus</span>, tellus ac cursus <span style="color:red">commodo</span>, tortor mauris condimentum nibh, <span style="color:red">ut</span> fermentum <span style="color:red">massa</span> justo sit amet <span style="color:red">risus</span>. <span style="color:red">Etiam</span> porta sem <span style="color:red">malesuada</span> magna mollis euismod. Donec sed odio dui. </p>
+        <h2>To</h2>
+        <div class="row">
+        	<div class="span7">
+        	<textarea style="width:100%" id="step2_to_area" class="input-xlarge" rows="12">{
+    word1 : "",
+    word2 : "",
+    word3 : "",
+    word4 : "",
+    word5 : "",
+    word6 : "",
+    word7 : "",
+    word8 : ""
+}</textarea>
+        	</div>
+	        <div class="span3">
+	        	<h2 class="step1_timer">0:000</h2>
+	        	<h2 class="step2_timer">0:000</h2>
+	        	<div id="finish" style="display:none"><p>The test is done. Draw your own conclusions or <a class="btn btn-primary" href="test.html">redo the test</a></div>
+	        </div>
+        </div>
+      </div>
+      
+      <script>
+      jQuery('#startstep2').click(function(e){
+    	  e.preventDefault();
+    	  jQuery('#step1').hide();
+    	  jQuery('#step2').show();
+    	  return false;
+      });
+      var intervalid = self.setInterval("updateTimerStep1()",100);
+      var startdate = 0;
+      function updateTimerStep1() {
+    	  if(document.getElementById('step1_to_area').value.indexOf('malesuada') != -1){
+    		  window.clearInterval(intervalid);
+    		  jQuery('#gotostep2').show();
+    		  startdate = 0;
+    		  intervalid = self.setInterval("updateTimerStep2()",100);
+    	  }
+    	  if(startdate > 0){
+    		  var t= (new Date().getTime()-startdate);
+    		  var rest = t%1000;
+    	      jQuery('.step1_timer').html(((t-rest)/1000) + ':' + rest);
+    	  } else {
+    		  if(document.getElementById('step1_to_area').value.indexOf('porta') != -1){
+    			  startdate = new Date().getTime();
+    		  }
+    	  }
+      }
+      function updateTimerStep2() {
+    	  if(document.getElementById('step2_to_area').value.indexOf('malesuada') != -1){
+    		  window.clearInterval(intervalid);
+    		  jQuery('#finish').show();
+    	  }
+    	  if(startdate > 0 && document.getElementById('step2_to_area').value.indexOf('porta') != -1){
+    		  var t= (new Date().getTime()-startdate);
+    		  var rest = t%1000;
+    	      jQuery('.step2_timer').html(((t-rest)/1000) + ':' + rest);
+    	  } else {
+    		  startdate = 0;
+    		  if(document.getElementById('step2_to_area').value.indexOf('porta') != -1){
+    			  startdate = new Date().getTime();
+    		  }
+    	  }
+      }
+      </script>
+
+      <hr>
+
+      <footer>
+        <p style="float:right">
+          <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://krispypen.github.com/TrackpadTest/" data-via="" data-count="horizontal" data-text="The Trackpad Test">Tweet</a>
+        </p>
+        <p>&copy; Kris Pypen 2012</p>
+      </footer>
+
+    </div> <!-- /container -->
+    <!-- Google Analytics -->
+<script src="js/analytics.js"></script>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-XXXXX-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+<!-- Twitter -->
+<script type="text/javascript">
+  (function(){
+    var twitterWidgets = document.createElement('script');
+    twitterWidgets.type = 'text/javascript';
+    twitterWidgets.async = true;
+    twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+    twitterWidgets.onload = _ga.trackTwitter;
+    document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+  })();
+</script>
+  </body>
+</html>
+
